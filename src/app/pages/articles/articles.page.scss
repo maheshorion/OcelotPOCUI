@@ -1,0 +1,78 @@
+/* Card goes full width */
+:host ::ng-deep .mat-mdc-card {
+  width: 100%;
+  max-width: none;
+  margin: 12px 0;
+}
+
+/* Toolbar */
+.toolbar { display:flex; gap:1rem; align-items:center; margin-bottom:12px; }
+.filter { width:320px; max-width:100%; }
+
+/* The new scroll wrapper */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;           /* <- horizontal scroll when needed */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table wants a minimum width so columns are readable */
+.data-table {
+  width: 100%;
+  min-width: 1400px;          /* adjust as you like */
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  vertical-align: middle;
+  padding: 12px 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* utilities */
+.center { text-align:center; }
+.right  { text-align:right; }
+
+/* multi-line truncation for content/summary only */
+.multiline-2 {
+  white-space: normal !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* sensible column widths */
+.col-id        { width: 180px; }
+.col-title     { width: 200px; }
+.col-content   { width: 320px; }
+.col-author    { width: 140px; }
+.col-date      { width: 180px; }
+.col-category  { width: 140px; }
+.col-featured  { width: 90px; }
+.col-read      { width: 120px; }
+.col-image     { width: 100px; }
+.col-likes     { width: 90px; }
+.col-comments  { width: 110px; }
+.col-tags      { width: 320px; white-space: normal; }
+.col-published { width: 110px; }
+.col-modified  { width: 180px; }
+.col-summary   { width: 320px; }
+
+/* image */
+.thumb { width: 48px; height: 32px; object-fit: cover; border-radius: 4px; }
+
+/* chips tweak */
+.chips .mdc-evolution-chip-set__chips { row-gap: 4px; }
+.chips .mdc-evolution-chip { --mdc-chip-container-height: 24px; font-size:12px; margin-right:4px; }
+
+/* zebra + hover */
+:host ::ng-deep .mat-mdc-row:nth-child(even) { background:#fafafa; }
+:host ::ng-deep .mat-mdc-row:hover { background:#f2f6ff; }
+
+/* paginator spacing */
+:host ::ng-deep .mat-mdc-paginator { padding: 8px; }
