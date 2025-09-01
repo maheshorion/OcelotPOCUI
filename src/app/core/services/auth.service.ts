@@ -13,39 +13,36 @@ export interface AuthUser {
 type AnyLoginResponse =
   | { token: string; role?: string; user?: AuthUser }
   | { accessToken: string; refreshToken?: string; user?: AuthUser; role?: string }
-  | Record<string, unknown>; // fallback
+  | Record<string, unknown>; 
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private base = environment.apiBaseUrl; // '' in dev when using proxy
+  private base = environment.apiBaseUrl; 
 
-  // Signals
+  
   readonly user = signal<AuthUser | null>(this.readUser());
   readonly accessToken = signal<string | null>(this.readToken());
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly isAuthenticated = computed(() => !!this.accessToken());
 
-  /**
-   * Call the login API.
-   * For your backend: POST {base}/auth-api/Auth/login  { username, password }
-   */
+ 
   async login(username: string, password: string): Promise<boolean> {
     this.loading.set(true);
     this.error.set(null);
 
     try {
       debugger;
-      const url = `${this.base}/auth-api/Auth/login`; // resolves to /auth-api/Auth/login
+      const url = `${this.base}/auth-api/Auth/login`; 
    
       const resp = await this.http.post<AnyLoginResponse>(url, { username, password }).toPromise();
 
       const token = this.pickToken(resp);
       if (!token) throw new Error('No token returned from server.');
 
-      // Build a minimal user if provided
+      
       const user: AuthUser = {
         ...(this.pickUser(resp) ?? {}),
         role: this.pickRole(resp) ?? undefined
@@ -57,11 +54,17 @@ export class AuthService {
       this.accessToken.set(token);
       this.loading.set(false);
       return true;
-    } catch (err: any) {
-      const msg = err?.error?.message || err?.message || 'Login failed.';
+    } catch (e: any) {
+         if (e?.status === 401) {
+      this.error.set('Invalid username or password.');
+    } else if (e?.status === 0) {
+      this.error.set('Cannot reach server. Please check your API or proxy settings.');
+    } else {
+      const msg = e?.error?.message || e?.message || 'Login failed.';
       this.error.set(msg);
-      this.loading.set(false);
-      return false;
+    }
+    this.loading.set(false);
+    return false;
     }
   }
 
@@ -75,12 +78,12 @@ export class AuthService {
     this.router.navigateByUrl('/login');
   }
 
-  // ---------- helpers ----------
+
 
   private pickToken(resp: AnyLoginResponse | undefined | null): string | null {
     if (!resp || typeof resp !== 'object') return null;
     const r = resp as any;
-    // common token field names
+   
     return r.token ?? r.accessToken ?? null;
   }
 
@@ -95,7 +98,7 @@ export class AuthService {
     const r = resp as any;
     if (r.user && typeof r.user === 'object') return r.user as AuthUser;
 
-    // build from flat fields if present
+    
     const possible: AuthUser = {
       id: r.userId ?? r.id,
       name: r.name ?? r.username,

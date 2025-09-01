@@ -1,34 +1,70 @@
-<div style="min-height:80vh;display:grid;place-items:center;padding:24px">
-    <mat-card style="width:380px;max-width:92vw">
-      <mat-card-title>Sign in</mat-card-title>
-      <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="submit()">
-          <mat-form-field appearance="outline" style="width:100%">
-            <mat-label>Username</mat-label>
-            <input matInput formControlName="username" autocomplete="username" />
-            <mat-error *ngIf="form.get('username')?.hasError('required')">
-              Username is required
-            </mat-error>
-          </mat-form-field>
+<div style="
+  min-height:80vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:
+    radial-gradient(900px 600px at 15% 15%, rgba(99,102,241,.10), transparent 60%),
+    radial-gradient(900px 600px at 85% 85%, rgba(59,130,246,.10), transparent 60%),
+    linear-gradient(135deg, #eef2ff 0%, #f9fafc 100%);
+">
+  <mat-card style="width:400px;max-width:92vw;border-radius:16px;box-shadow:0 8px 26px rgba(15,23,42,.14),0 2px 6px rgba(15,23,42,.06)">
+    <!-- Brand / Title -->
+    <div style="display:flex;align-items:center;gap:10px;margin:10px 12px 0">
+      <span style="width:12px;height:12px;border-radius:50%;
+                   background:linear-gradient(90deg,#6366f1,#4f46e5);
+                   box-shadow:0 0 0 4px rgba(99,102,241,.15)"></span>
+      <span style="font-weight:600;letter-spacing:.2px;color:#1e293b">OcelotPOCUI</span>
+    </div>
 
-          <mat-form-field appearance="outline" style="width:100%">
-            <mat-label>Password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
-            <button mat-icon-button type="button" matSuffix (click)="hide = !hide" aria-label="Toggle password visibility">
-              <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('password')?.hasError('required')">
-              Password is required
-            </mat-error>
-          </mat-form-field>
+    <mat-card-title style="margin:6px 12px 2px">Sign in</mat-card-title>
+    <p style="margin:0 12px 8px;color:#64748b;font-size:13px">Welcome back. Please sign in to continue.</p>
 
-          <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-          <div *ngIf="error" style="color:#c62828;margin:8px 0 12px">{{ error }}</div>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()" style="display:flex;flex-direction:column;gap:14px">
+        <!-- Username -->
+        <mat-form-field appearance="outline" style="width:100%">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" autocomplete="username" />
+          <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
+        </mat-form-field>
 
-          <button mat-raised-button color="primary" style="width:100%" [disabled]="loading">
-            {{ loading ? 'Signing in…' : 'Login' }}
+        <!-- Password -->
+        <mat-form-field appearance="outline" style="width:100%">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
+          <button mat-icon-button type="button" matSuffix (click)="hide = !hide" aria-label="Toggle password visibility">
+            <mat-icon>{{ hide ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+          <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
+        </mat-form-field>
+
+        <!-- Forgot password link (purely navigational) -->
+        <div style="display:flex;justify-content:flex-end;margin-top:-6px">
+          <a routerLink="/forgot-password" style="color:#4f46e5;text-decoration:none;font-size:13px;font-weight:500">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- Loading / error / submit -->
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        <div *ngIf="error" style="background:#fef2f2;color:#b91c1c;padding:10px 12px;border-left:4px solid #ef4444;border-radius:8px;font-size:13px">
+          {{ error }}
+        </div>
+
+        <button mat-raised-button color="primary" style="width:100%;height:44px;border-radius:10px;font-weight:700"
+                [disabled]="loading">
+          {{ loading ? 'Signing in…' : 'Login' }}
+        </button>
+      </form>
+
+      <!-- Create account link (purely navigational) -->
+      <div style="text-align:center;font-size:13px;color:#475569;margin-top:12px">
+        Don’t have an account?
+        <a routerLink="/signup" style="color:#4f46e5;text-decoration:none;font-weight:600;margin-left:4px">
+          Create account
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

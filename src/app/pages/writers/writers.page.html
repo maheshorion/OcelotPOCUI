@@ -1,111 +1,126 @@
-<mat-card>
-  <mat-card-title>Writers</mat-card-title>
+<div class="container">
+  <!-- Visual page header -->
+  <div class="section-head">
+    <h1>Writers</h1>
+    
+  </div>
 
-  <mat-card-content>
-    <!-- Filter -->
-    <div class="toolbar">
-      <mat-form-field appearance="outline" class="filter">
-        <mat-label>Filter by name/email/bio</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter" />
-      </mat-form-field>
-    </div>
+  <mat-card>
+    
 
-    <!-- Loading -->
-    <mat-progress-bar *ngIf="svc.loading()" mode="indeterminate"></mat-progress-bar>
+    <mat-card-content>
+      <!-- Filter -->
+      <div class="toolbar">
+        <mat-form-field appearance="outline" class="filter">
+          <mat-label>Filter by name/email/bio</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Type to filter" />
+        </mat-form-field>
+        <span class="spacer"></span>
 
-    <!-- Error -->
-    <mat-card *ngIf="svc.error()" class="error-card">
-      <mat-card-content>
-        <mat-icon style="vertical-align:middle;margin-right:6px;">error</mat-icon>
-        {{ svc.error() }}
-      </mat-card-content>
-    </mat-card>
+  <button mat-stroked-button class="download-btn" (click)="downloadCsv()">
+    <mat-icon>download</mat-icon>
+    Download CSV
+  </button>
 
-    <!-- Table -->
-    <div class="table-wrap" *ngIf="ds.data.length > 0">
-      <!-- 👇 bind trackBy on the TABLE (CDK table supports [trackBy]) -->
-      <table mat-table [dataSource]="ds" [trackBy]="trackById" matSort class="mat-elevation-z1 data-table">
+        
+      </div>
 
-        <!-- ID -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-id">ID</th>
-          <td mat-cell *matCellDef="let r" class="col-id">{{ r.id }}</td>
-        </ng-container>
+      <!-- Loading -->
+      <mat-progress-bar *ngIf="svc.loading()" mode="indeterminate"></mat-progress-bar>
 
-        <!-- Name -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-name">Name</th>
-          <td mat-cell *matCellDef="let r" class="col-name clickable" (click)="openDetails(r)">
-            {{ r.name }}
-          </td>
-        </ng-container>
+      <!-- Error -->
+      <mat-card *ngIf="svc.error()" class="error-card">
+        <mat-card-content>
+          <mat-icon style="vertical-align:middle;margin-right:6px;">error</mat-icon>
+          {{ svc.error() }}
+        </mat-card-content>
+      </mat-card>
 
-        <!-- Bio -->
-        <ng-container matColumnDef="bio">
-          <th mat-header-cell *matHeaderCellDef class="col-bio">Bio</th>
-          <td mat-cell *matCellDef="let r" class="col-bio multiline-2">{{ r.bio }}</td>
-        </ng-container>
+      <!-- Table -->
+      <div class="table-wrap" *ngIf="ds.data.length > 0">
+        <table mat-table [dataSource]="ds" [trackBy]="trackById" matSort class="mat-elevation-z1 data-table">
 
-        <!-- Email -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-email">Email</th>
-          <td mat-cell *matCellDef="let r" class="col-email">{{ r.email }}</td>
-        </ng-container>
+          <!-- ID -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-id">ID</th>
+            <td mat-cell *matCellDef="let r" class="col-id">{{ r.id }}</td>
+          </ng-container>
 
-        <!-- Phone -->
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef class="col-phone">Phone</th>
-          <td mat-cell *matCellDef="let r" class="col-phone">{{ r.phone }}</td>
-        </ng-container>
+          <!-- Name -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-name">Name</th>
+            <td mat-cell *matCellDef="let r" class="col-name clickable" (click)="openDetails(r)">
+              {{ r.name }}
+            </td>
+          </ng-container>
 
-        <!-- Avatar -->
-        <ng-container matColumnDef="profilePictureUrl">
-          <th mat-header-cell *matHeaderCellDef class="col-avatar center">Avatar</th>
-          <td mat-cell *matCellDef="let r" class="col-avatar center">
-            <img *ngIf="r.profilePictureUrl" [src]="r.profilePictureUrl" alt="avatar" class="avatar" />
-          </td>
-        </ng-container>
+          <!-- Bio -->
+          <ng-container matColumnDef="bio">
+            <th mat-header-cell *matHeaderCellDef class="col-bio">Bio</th>
+            <td mat-cell *matCellDef="let r" class="col-bio multiline-2">{{ r.bio }}</td>
+          </ng-container>
 
-        <!-- Joined -->
-        <ng-container matColumnDef="joinedDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-date">Joined</th>
-          <td mat-cell *matCellDef="let r" class="col-date">{{ r.joinedDate | date:'medium' }}</td>
-        </ng-container>
+          <!-- Email -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-email">Email</th>
+            <td mat-cell *matCellDef="let r" class="col-email">{{ r.email }}</td>
+          </ng-container>
 
-        <!-- Articles -->
-        <ng-container matColumnDef="articlesWritten">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num right">Articles</th>
-          <td mat-cell *matCellDef="let r" class="col-num right">{{ r.articlesWritten }}</td>
-        </ng-container>
+          <!-- Phone -->
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef class="col-phone">Phone</th>
+            <td mat-cell *matCellDef="let r" class="col-phone">{{ r.phone }}</td>
+          </ng-container>
 
-        <!-- Followers -->
-        <ng-container matColumnDef="followers">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num right">Followers</th>
-          <td mat-cell *matCellDef="let r" class="col-num right">{{ r.followers }}</td>
-        </ng-container>
+          <!-- Avatar -->
+          <ng-container matColumnDef="profilePictureUrl">
+            <th mat-header-cell *matHeaderCellDef class="col-avatar center">Avatar</th>
+            <td mat-cell *matCellDef="let r" class="col-avatar center">
+              <img *ngIf="r.profilePictureUrl" [src]="r.profilePictureUrl" alt="avatar" class="avatar" />
+            </td>
+          </ng-container>
 
-        <!-- Active -->
-        <ng-container matColumnDef="isActive">
-          <th mat-header-cell *matHeaderCellDef class="col-active center">Active</th>
-          <td mat-cell *matCellDef="let r" class="col-active center">
-            <mat-icon [matTooltip]="r.isActive ? 'Active' : 'Inactive'">
-              {{ r.isActive ? 'check_circle' : 'cancel' }}
-            </mat-icon>
-          </td>
-        </ng-container>
+          <!-- Joined -->
+          <ng-container matColumnDef="joinedDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-date">Joined</th>
+            <td mat-cell *matCellDef="let r" class="col-date">{{ r.joinedDate | date:'medium' }}</td>
+          </ng-container>
 
-        <!-- Rows -->
-        <tr mat-header-row *matHeaderRowDef="displayed"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayed"></tr>
+          <!-- Articles -->
+          <ng-container matColumnDef="articlesWritten">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num right">Articles</th>
+            <td mat-cell *matCellDef="let r" class="col-num right">{{ r.articlesWritten }}</td>
+          </ng-container>
 
-        <!-- No data -->
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayed.length">No data to display.</td>
-        </tr>
-      </table>
-    </div>
+          <!-- Followers -->
+          <ng-container matColumnDef="followers">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-num right">Followers</th>
+            <td mat-cell *matCellDef="let r" class="col-num right">{{ r.followers }}</td>
+          </ng-container>
 
-    <!-- Paginator -->
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,20]"></mat-paginator>
-  </mat-card-content>
-</mat-card>
+          <!-- Active -->
+          <ng-container matColumnDef="isActive">
+            <th mat-header-cell *matHeaderCellDef class="col-active center">Active</th>
+            <td mat-cell *matCellDef="let r" class="col-active center">
+              <mat-icon [matTooltip]="r.isActive ? 'Active' : 'Inactive'">
+                {{ r.isActive ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <!-- Rows -->
+          <tr mat-header-row *matHeaderRowDef="displayed"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayed"></tr>
+
+          <!-- No data -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayed.length">No data to display.</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5,10,20]"></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

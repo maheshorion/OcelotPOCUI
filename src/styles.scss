@@ -1,4 +1,169 @@
+/* ===== Base ===== */
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, Arial, sans-serif; background: #fafafa; }
-mat-card { margin: 12px 0; }
+* { box-sizing: border-box; }
+
+/* ---------- Light theme tokens ---------- */
+:root {
+  /* Page & text */
+  --page-bg: #f6f8ff;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f3f6fd;
+  --surface-3: #eef2ff;
+  --on-surface: #0f172a;
+  --muted: #475569;
+
+  /* Accent */
+  --primary: #3b82f6;
+  --on-primary: #ffffff;
+
+  /* Lines, dividers, shadows */
+  --outline: rgba(15, 23, 42, 0.18);
+  --outline-strong: rgba(15, 23, 42, 0.28);
+  --divider: rgba(15, 23, 42, 0.10);
+  --shadow-1: 0 4px 14px rgba(0,0,0,.08);
+  --radius: 12px;
+
+  /* Table palette */
+  --table-head-bg: #eef2ff;
+  --table-row: #ffffff;
+  --table-row-alt: #fafbff;
+  --table-row-hover: #eef5ff;
+
+  /* Chips */
+  --chip-bg: #e2e8f0;
+  --chip-on: #0f172a;
+
+  /* NEW: bars (menu + section headers) */
+  --bar-bg: #2563eb; /* blue-600 */
+  --bar-on: #ffffff;
+
+  color-scheme: light;
+}
+
+/* ---------- Dark theme overrides ---------- */
+.theme-dark {
+  --page-bg: #0b1020;
+  --bg: #0b1020;
+  --surface: #0f172a;
+  --surface-2: #111a2f;
+  --surface-3: #16233f;
+  --on-surface: #e2e8f0;
+  --muted: #94a3b8;
+
+  --primary: #60a5fa;
+  --on-primary: #0b1020;
+
+  --outline: rgba(226, 232, 240, 0.16);
+  --outline-strong: rgba(226, 232, 240, 0.28);
+  --divider: rgba(226, 232, 240, 0.12);
+
+  --table-head-bg: #13203a;
+  --table-row: #0f172a;
+  --table-row-alt: #101a30;
+  --table-row-hover: #172544;
+
+  --chip-bg: #1f2a44;
+  --chip-on: #e2e8f0;
+
+  /* Bars in dark: dark navy with light text */
+  --bar-bg: #1e293b;
+  --bar-on: #e2e8f0;
+
+  color-scheme: dark;
+}
+
+/* ---------- Global bg & text ---------- */
+body {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+  background: var(--page-bg);
+  color: var(--on-surface);
+  transition: background .2s linear, color .2s linear;
+}
+a { color: var(--primary); }
+
+/* ---------- App header / menu bar ---------- */
+.app-header {
+  background: var(--bar-bg);
+  color: var(--bar-on);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header .brand { font-weight: 600; }
+.app-header .menu a {
+  margin-left: 16px;
+  color: var(--bar-on) !important;
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+.app-header .menu a.active { text-decoration: underline; }
+
+/* ---------- Cards & tables use theme tokens ---------- */
+mat-card, .mat-mdc-card {
+  background: var(--surface);
+  color: var(--on-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  margin: 12px 0;
+}
+
 table { width: 100%; }
+
+.mat-mdc-table { background: var(--surface); color: var(--on-surface); }
+.mat-mdc-header-row, .mat-mdc-header-cell {
+  background: var(--table-head-bg) !important;
+  color: var(--on-surface);
+  border-bottom: 1px solid var(--divider);
+}
+.mat-mdc-row { background: var(--table-row); }
+.mat-mdc-row:nth-child(even) { background: var(--table-row-alt); }
+.mat-mdc-row:hover { background: var(--table-row-hover); }
+.mat-mdc-table .mat-mdc-cell, .mat-mdc-table .mat-mdc-header-cell {
+  border-bottom: 1px solid var(--divider);
+}
+
+/* Sort arrow */
+.mat-sort-header-arrow, .mat-sort-header-stem, .mat-sort-header-indicator,
+.mat-sort-header-pointer-left, .mat-sort-header-pointer-right {
+  color: var(--on-surface) !important;
+  opacity: .7;
+}
+
+/* Paginator */
+.mat-mdc-paginator {
+  background: var(--surface);
+  color: var(--on-surface);
+  border-top: 1px solid var(--divider);
+}
+.mat-mdc-paginator .mat-mdc-select-value { color: var(--on-surface); }
+
+/* Filled fields */
+.mdc-text-field--filled { background: var(--surface-2) !important; border-radius: 10px !important; }
+.mdc-text-field__input { color: var(--on-surface) !important; }
+.mdc-line-ripple { background-color: var(--primary) !important; }
+.mat-mdc-form-field-focus-overlay { background: transparent !important; }
+
+/* Chips */
+.mat-mdc-standard-chip {
+  background: var(--chip-bg) !important;
+  color: var(--chip-on) !important;
+  border-radius: 999px !important;
+}
+
+/* Progress bar */
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: var(--primary);
+  --mdc-linear-progress-track-color: var(--outline);
+}
+
+/* Accessibility & misc */
+::selection { background: color-mix(in oklab, var(--primary) 30%, transparent); }
+hr { border: 0; height: 1px; background: var(--divider); }
+.shadow-1 { box-shadow: var(--shadow-1); }
+.round { border-radius: var(--radius); }
+
+@media (max-width: 768px) { body { font-size: 15px; } }

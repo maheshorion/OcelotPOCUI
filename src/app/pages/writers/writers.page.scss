@@ -1,0 +1,244 @@
+/* -------- Container & page header -------- */
+.container {
+  max-width: 1160px;
+  margin: 16px auto 28px;
+  padding: 0 12px;
+}
+
+.section-head {
+  margin: 0 0 14px;
+  padding: 14px 18px;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--table-head-bg, #eef2ff) 65%, transparent) 0%, transparent 100%),
+    var(--surface-2, #f3f6fd);
+  border: 1px solid var(--outline, rgba(0,0,0,.12));
+  border-radius: 14px;
+  box-shadow: var(--shadow-1, 0 4px 14px rgba(0,0,0,.08));
+}
+.section-head h1 { margin:0 0 4px; font-size:22px; letter-spacing:.2px; }
+.section-head p  { margin:0; color:var(--muted, #64748b); font-size:13px; }
+
+/* -------- Card -------- */
+:host ::ng-deep .mat-mdc-card {
+  width:100%; max-width:none; margin:0; border-radius:16px;
+  box-shadow: var(--shadow-1, 0 4px 14px rgba(0,0,0,.08));
+}
+
+/* -------- Toolbar (aligned like Articles) -------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 14px;
+}
+.filter { width: 420px; max-width: 100%; }
+.spacer { flex: 1 1 auto; }
+
+/* Download button match */
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding-inline: 12px 16px;
+  font-weight: 500;
+}
+
+/* -------- Scroll wrapper -------- */
+.table-wrap {
+  width:100%;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  border: 1px solid var(--outline, rgba(0,0,0,.12));
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  box-shadow: inset 0 1px 0 var(--divider, rgba(0,0,0,.06));
+}
+
+/* Pretty scrollbars (WebKit) */
+.table-wrap::-webkit-scrollbar { height: 10px; }
+.table-wrap::-webkit-scrollbar-track { background: transparent; }
+.table-wrap::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--outline, #d0d7e2) 60%, transparent);
+  border-radius: 999px;
+}
+
+/* -------- Table base -------- */
+.data-table {
+  width:100%;
+  min-width:1200px;
+  table-layout:fixed;
+  border-collapse:separate;
+  border-spacing:0;
+}
+.data-table th, .data-table td {
+  vertical-align:middle;
+  padding:12px 16px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  border-bottom:1px solid var(--divider, rgba(0,0,0,.08));
+}
+
+/* Sticky, themed header */
+:host ::ng-deep .mat-mdc-header-row,
+:host ::ng-deep .mat-mdc-header-cell {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--table-head-bg,#eef2ff) 85%, transparent) 0%, var(--table-head-bg,#eef2ff) 100%) !important;
+  color:var(--on-surface,#0f172a);
+}
+.data-table thead th { position:sticky; top:0; z-index:3; }
+.data-table thead th:first-child { border-top-left-radius:14px; }
+.data-table thead th:last-child  { border-top-right-radius:14px; }
+
+/* Optional: sticky first column (ID) */
+:host ::ng-deep .mat-mdc-header-cell.col-id,
+:host ::ng-deep .mat-mdc-cell.col-id {
+  position: sticky; left: 0; z-index: 4;
+  background: var(--surface, #fff);
+  box-shadow: 1px 0 0 var(--divider, rgba(0,0,0,.08));
+}
+
+/* Zebra + hover using theme vars */
+:host ::ng-deep .mat-mdc-row:nth-child(even){ background: var(--table-row-alt, #fafafa); }
+:host ::ng-deep .mat-mdc-row{ background: var(--table-row, #fff); }
+:host ::ng-deep .mat-mdc-row:hover{ background: var(--table-row-hover, #eef5ff); }
+
+/* Utilities */
+.center { text-align:center; }
+.right  { text-align:right; }
+.multiline-2 {
+  white-space:normal !important; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+
+/* Column widths */
+.col-id{width:220px}.col-name{width:180px}.col-bio{width:360px}.col-email{width:220px}
+.col-phone{width:140px}.col-avatar{width:100px}.col-date{width:170px}.col-num{width:120px}.col-active{width:110px}
+
+/* Avatars */
+.avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+.avatar.large { width:48px; height:48px; }
+
+/* Paginator polish */
+:host ::ng-deep .mat-mdc-paginator {
+  padding:10px 8px;
+  background:var(--surface,#fff);
+  border-top:1px solid var(--divider,rgba(0,0,0,.08));
+  border-bottom-left-radius:14px;
+  border-bottom-right-radius:14px;
+}
+
+/* ---- Dark mode hardening ---- */
+:host-context(.theme-dark) .section-head {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--table-head-bg) 65%, transparent) 0%, transparent 100%),
+    var(--surface-2);
+  border-color: var(--outline);
+}
+:host-context(.theme-dark) .table-wrap {
+  background: var(--surface);
+  border-color: var(--outline);
+  box-shadow: inset 0 1px 0 var(--divider);
+}
+:host-context(.theme-dark) .mat-mdc-header-row,
+:host-context(.theme-dark) .mat-mdc-header-cell {
+  background: var(--table-head-bg) !important;
+  color: var(--on-surface) !important;
+  border-bottom: 1px solid var(--divider) !important;
+}
+:host-context(.theme-dark) .mat-mdc-row:nth-child(even){ background: var(--table-row-alt) !important; }
+:host-context(.theme-dark) .mat-mdc-row{ background: var(--table-row) !important; }
+:host-context(.theme-dark) .mat-mdc-row:hover{ background: var(--table-row-hover) !important; }
+:host-context(.theme-dark) .mat-mdc-cell,
+:host-context(.theme-dark) .mat-mdc-header-cell { border-bottom: 1px solid var(--divider) !important; }
+
+/* sticky first column alignment in dark */
+:host-context(.theme-dark) .mat-mdc-header-cell.col-id,
+:host-context(.theme-dark) .mat-mdc-cell.col-id {
+  background: var(--surface) !important;
+  box-shadow: 1px 0 0 var(--divider) !important;
+}
+
+/* Dark scrollbar tint */
+:host-context(.theme-dark) .table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,.35);
+}
+
+/* Dark mode toolbar/button contrast */
+:host-context(.theme-dark) .download-btn {
+  color: var(--on-surface) !important;
+  border-color: var(--outline) !important;
+}
+
+/* ===== Dark mode visibility fixes (same as Articles) ===== */
+:host-context(.theme-dark) .mat-mdc-table,
+:host-context(.theme-dark) .mat-mdc-header-cell,
+:host-context(.theme-dark) .mat-mdc-cell {
+  color: var(--on-surface) !important;
+}
+:host-context(.theme-dark) .mat-mdc-cell a,
+:host-context(.theme-dark) .mat-mdc-header-cell a {
+  color: var(--on-surface) !important;
+}
+:host-context(.theme-dark) .mat-mdc-paginator,
+:host-context(.theme-dark) .mat-mdc-paginator .mat-mdc-select-value,
+:host-context(.theme-dark) .mat-mdc-paginator .mat-mdc-select-arrow,
+:host-context(.theme-dark) .mat-mdc-paginator .mat-mdc-icon-button,
+:host-context(.theme-dark) .mat-mdc-paginator .mat-mdc-button-touch-target,
+:host-context(.theme-dark) .mat-mdc-paginator .mat-mdc-paginator-range-label {
+  color: var(--on-surface) !important;
+  opacity: 1 !important;
+}
+:host-context(.theme-dark) .mat-mdc-select-panel,
+:host-context(.theme-dark) .mat-mdc-select-panel .mat-mdc-option,
+:host-context(.theme-dark) .mat-mdc-select-panel .mdc-list-item__primary-text {
+  color: var(--on-surface) !important;
+}
+:host-context(.theme-dark) .mat-sort-header-arrow,
+:host-context(.theme-dark) .mat-sort-header-stem,
+:host-context(.theme-dark) .mat-sort-header-indicator,
+:host-context(.theme-dark) .mat-sort-header-pointer-left,
+:host-context(.theme-dark) .mat-sort-header-pointer-right {
+  color: var(--on-surface) !important;
+  opacity: .9 !important;
+}
+:host-context(.theme-dark) .mdc-text-field__input,
+:host-context(.theme-dark) .mat-mdc-form-field .mdc-floating-label,
+:host-context(.theme-dark) .mat-mdc-form-field .mdc-floating-label--float-above {
+  color: var(--on-surface) !important;
+  opacity: 1 !important;
+}
+
+/* -------- Responsive -------- */
+@media (max-width:768px){
+  .toolbar { flex-direction: column; align-items: stretch; gap: 8px; }
+  .filter { width: 100%; }
+  .data-table { min-width: 0; }
+}
+.section-head {
+  margin: 0 0 14px;
+  padding: 14px 18px;
+
+  /* BLUE in light, dark navy in dark (via tokens) */
+  background: var(--bar-bg);
+  color: var(--bar-on);
+
+  border: 1px solid color-mix(in oklab, var(--bar-bg) 60%, transparent);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.10);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-head h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: .2px;
+  color: var(--bar-on);
+}
+.section-head p {
+  margin: 0;
+  color: color-mix(in oklab, var(--bar-on) 80%, transparent);
+  font-size: 13px;
+}
